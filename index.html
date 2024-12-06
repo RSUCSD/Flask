@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Data Visualization with Flask</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <a href="{{ url_for('contact') }}">*** Contact Information ***</a>
+    <h2 id="myHeading">Welcome to Data Visualization</h2> 
+    <h1>Data Visualization with Flask</h1>
+    <form method="POST" action="/">    
+        <div>
+            <label for="categories">Categories (comma-separated):</label>
+            <input type="text" name="categories" required>
+        </div>
+        <div>
+            <label for="values">Values (comma-separated):</label>
+            <input type="text" name="values" required>
+        </div>
+        <button type="submit">Generate Bar Chart</button>
+    </form>
+    <div class="chart-container">
+        {% if error_message %}
+            <p style="color: red;">{{ error_message }}</p>
+        {% endif %}
+        {% if chart_url %}
+            <img src="data:image/png;base64,{{ chart_url }}" alt="Bar Chart">
+        {% endif %}
+    </div>
+    <script>
+        const valuesInput = document.getElementById('valuesInput');
+        valuesInput.addEventListener('input', function() {
+            this.value = this.value.replace(/[^0-9,]/g, ''); // Only allow numbers and commas
+        });
+    </script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
